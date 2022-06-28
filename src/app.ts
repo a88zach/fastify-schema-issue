@@ -9,7 +9,10 @@ export const build = () => {
   });
 
   app.setErrorHandler(function (err, _request, reply) {
-    app.log.error({ message: err.message });
+    if ((err as any).serialization) {
+      app.log.error({ message: err.message }, 'Serialization error');
+    }
+
     reply.send(err);
   });
 
